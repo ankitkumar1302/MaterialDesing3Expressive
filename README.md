@@ -29,36 +29,59 @@ transitions, and interactive elements, pushing the boundaries of what's possible
 4. **Animated Filter Chips**: Responsive chip groups with animated transitions and haptic feedback
 5. **FAB Menus & Toolbars**: Floating action buttons that expand into menus and interactive toolbars
 6. **Enhanced Progress Indicators**: Custom progress indicators with animated properties
-
+7. 
 ## 🎬 Component Demonstrations
 
 <table>
   <tr>
-    <td valign="top"><video src="app/src/main/res/drawable/screenrecorder.mp4" width="350dp"></video></td>
-    <td valign="top"><video src="app/src/main/res/drawable/screenrecorder2.mp4" width="350dp"></video></td>
+    <td valign="top">
+      <img src="https://github.com/ankitgrover-fils/material-design3-expressive/raw/main/screenshots/button_groups.png" width="350"/>
+      <br><b>Button Groups</b> - Fluid animations and interactive transitions
+      <br><i>View demo: <a href="app/src/main/res/drawable/screenrecorder.mp4">screenrecorder.mp4</a></i>
+    </td>
+    <td valign="top">
+      <img src="https://github.com/ankitgrover-fils/material-design3-expressive/raw/main/screenshots/filter_chips.png" width="350"/>
+      <br><b>Filter Chips</b> - Animated selection with haptic feedback
+      <br><i>View demo: <a href="app/src/main/res/drawable/screenrecorder2.mp4">screenrecorder2.mp4</a></i>
+    </td>
   </tr>
   <tr>
-    <td valign="top"><b>Button Groups</b> - Fluid animations and interactive transitions</td>
-    <td valign="top"><b>Filter Chips</b> - Animated selection with haptic feedback</td>
+    <td valign="top">
+      <img src="https://github.com/ankitgrover-fils/material-design3-expressive/raw/main/screenshots/expandable_cards.png" width="350"/>
+      <br><b>Expandable Cards</b> - Smooth expansion and interactive animations
+      <br><i>View demo: <a href="app/src/main/res/drawable/screenrecorder3.mp4">screenrecorder3.mp4</a></i>
+    </td>
+    <td valign="top">
+      <img src="https://github.com/ankitgrover-fils/material-design3-expressive/raw/main/screenshots/color_adjustable.png" width="350"/>
+      <br><b>Color Adjustable Card</b> - Dynamic color and shape adaptation
+      <br><i>View demo: <a href="app/src/main/res/drawable/screenrecorder4.mp4">screenrecorder4.mp4</a></i>
+    </td>
   </tr>
   <tr>
-    <td valign="top"><video src="app/src/main/res/drawable/screenrecorder3.mp4" width="350dp"></video></td>
-    <td valign="top"><video src="app/src/main/res/drawable/screenrecorder4.mp4" width="350dp"></video></td>
-  </tr>
-  <tr>
-    <td valign="top"><b>Expandable Cards</b> - Smooth expansion and interactive animations</td>
-    <td valign="top"><b>Color Adjustable Card</b> - Dynamic color and shape adaptation</td>
-  </tr>
-  <tr>
-    <td valign="top"><video src="app/src/main/res/drawable/screenrecorder5.mp4" width="350dp"></video></td>
-    <td valign="top"><video src="app/src/main/res/drawable/screenrecorder6.mp4" width="350dp"></video></td>
-  </tr>
-  <tr>
-    <td valign="top"><b>FAB Menu</b> - Expandable action buttons with fluid transitions</td>
-    <td valign="top"><b>Floating Toolbars</b> - Horizontal and vertical floating action toolbars</td>
+    <td valign="top">
+      <img src="https://github.com/ankitgrover-fils/material-design3-expressive/raw/main/screenshots/fab_menu.png" width="350"/>
+      <br><b>FAB Menu</b> - Expandable action buttons with fluid transitions
+      <br><i>View demo: <a href="app/src/main/res/drawable/screenrecorder5.mp4">screenrecorder5.mp4</a></i>
+    </td>
+    <td valign="top">
+      <img src="https://github.com/ankitgrover-fils/material-design3-expressive/raw/main/screenshots/floating_toolbar.png" width="350"/>
+      <br><b>Floating Toolbars</b> - Horizontal and vertical floating action toolbars
+      <br><i>View demo: <a href="app/src/main/res/drawable/screenrecorder6.mp4">screenrecorder6.mp4</a></i>
+    </td>
   </tr>
 </table>
 
+<details>
+  <summary><b>📹 View All Component Recordings</b></summary>
+
+- [Button Groups Demo (screenrecorder.mp4)](app/src/main/res/drawable/screenrecorder.mp4)
+- [Filter Chips Demo (screenrecorder2.mp4)](app/src/main/res/drawable/screenrecorder2.mp4)
+- [Expandable Cards Demo (screenrecorder3.mp4)](app/src/main/res/drawable/screenrecorder3.mp4)
+- [Color Adjustable Card Demo (screenrecorder4.mp4)](app/src/main/res/drawable/screenrecorder4.mp4)
+- [FAB Menu Demo (screenrecorder5.mp4)](app/src/main/res/drawable/screenrecorder5.mp4)
+- [Floating Toolbars Demo (screenrecorder6.mp4)](app/src/main/res/drawable/screenrecorder6.mp4)
+
+</details>
 
 ## 🚀 Implementation Highlights
 
