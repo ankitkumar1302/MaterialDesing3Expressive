@@ -47,7 +47,7 @@ transitions, and interactive elements, pushing the boundaries of what's possible
     <td valign="top" width="50%">
       <h3>🔍 Filter Chips</h3>
       <p>Animated selection with haptic feedback</p>
-      <img src="gifs/filter_chips.gif" width="100%" alt="Filter Chips Demo">
+      <img src="app/src/main/res/drawable/screen2.gif" width="100%" alt="Filter Chips Demo">
       <ul>
         <li>Color transitions</li>
         <li>Interactive response</li>
@@ -59,7 +59,7 @@ transitions, and interactive elements, pushing the boundaries of what's possible
     <td valign="top" width="50%">
       <h3>📑 Expandable Cards</h3>
       <p>Smooth expansion and interactive animations</p>
-      <img src="gifs/expandable_cards.gif" width="100%" alt="Expandable Cards Demo">
+      <img src="app/src/main/res/drawable/screen3.gif" width="100%" alt="Filter Chips Demo">
       <ul>
         <li>Animated expansion effects</li>
         <li>Elevation changes</li>
@@ -69,7 +69,7 @@ transitions, and interactive elements, pushing the boundaries of what's possible
     <td valign="top" width="50%">
       <h3>🎨 Color Adjustable Card</h3>
       <p>Dynamic color and shape adaptation</p>
-      <img src="gifs/color_adjustable.gif" width="100%" alt="Color Adjustable Card Demo">
+      <img src="app/src/main/res/drawable/screen4.gif" width="100%" alt="Filter Chips Demo">
       <ul>
         <li>Real-time HSL controls</li>
         <li>Shape morphing</li>
@@ -81,7 +81,7 @@ transitions, and interactive elements, pushing the boundaries of what's possible
     <td valign="top" width="50%">
       <h3>⚡ FAB Menu</h3>
       <p>Expandable action buttons with fluid transitions</p>
-      <img src="gifs/fab_menu.gif" width="100%" alt="FAB Menu Demo">
+      <img src="app/src/main/res/drawable/screen5.gif" width="100%" alt="Filter Chips Demo">
       <ul>
         <li>Animated expansion</li>
         <li>Icon transitions</li>
@@ -91,7 +91,7 @@ transitions, and interactive elements, pushing the boundaries of what's possible
     <td valign="top" width="50%">
       <h3>🧰 Floating Toolbars</h3>
       <p>Horizontal and vertical floating action toolbars</p>
-      <img src="gifs/floating_toolbar.gif" width="100%" alt="Floating Toolbars Demo">
+      <img src="app/src/main/res/drawable/screen6.gif" width="100%" alt="Filter Chips Demo">
       <ul>
         <li>Dynamic positioning</li>
         <li>Expandable interfaces</li>
