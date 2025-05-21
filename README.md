@@ -66,6 +66,7 @@ transitions, and interactive elements, pushing the boundaries of what's possible
 - **Accessibility**: Enhanced semantic descriptions and haptic feedback
 - **Interactive Components**: Rich interactive behaviors with visual and haptic feedback
 - **Dynamic Theming**: Components adapt to both light and dark themes
+- 
 
 ## 🛠️ Technologies Used
 
