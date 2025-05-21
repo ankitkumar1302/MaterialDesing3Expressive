@@ -74,7 +74,7 @@ transitions, and interactive elements, pushing the boundaries of what's possible
 <details>
   <summary><b>📹 View All Component Recordings</b></summary>
 
-- [Button Groups Demo (screenrecorder.mp4)](app/src/main/res/drawable/screenrecorder.mp4)
+- [Button Groups Demo (screenrecorder.mp4)](app/src/main/res/drawable/screenrecoder.gif)
 - [Filter Chips Demo (screenrecorder2.mp4)](app/src/main/res/drawable/screenrecorder2.mp4)
 - [Expandable Cards Demo (screenrecorder3.mp4)](app/src/main/res/drawable/screenrecorder3.mp4)
 - [Color Adjustable Card Demo (screenrecorder4.mp4)](app/src/main/res/drawable/screenrecorder4.mp4)
