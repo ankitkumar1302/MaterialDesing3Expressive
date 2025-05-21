@@ -37,7 +37,7 @@ transitions, and interactive elements, pushing the boundaries of what's possible
     <td valign="top">
       <img src="https://github.com/ankitgrover-fils/material-design3-expressive/raw/main/screenshots/button_groups.png" width="350"/>
       <br><b>Button Groups</b> - Fluid animations and interactive transitions
-      <br><i>View demo: <a href="app/src/main/res/drawable/screenrecorder.mp4">screenrecorder.mp4</a></i>
+      <br><i>View demo: <a href="app/src/main/res/drawable/screenrecoder.gif">screenrecoder.gif</a></i>
     </td>
     <td valign="top">
       <img src="https://github.com/ankitgrover-fils/material-design3-expressive/raw/main/screenshots/filter_chips.png" width="350"/>
