@@ -59,6 +59,7 @@ transitions, and interactive elements, pushing the boundaries of what's possible
   </tr>
 </table>
 
+
 ## 🚀 Implementation Highlights
 
 - **Motion & Animation**: Implements fluid animations using Compose's animation APIs
