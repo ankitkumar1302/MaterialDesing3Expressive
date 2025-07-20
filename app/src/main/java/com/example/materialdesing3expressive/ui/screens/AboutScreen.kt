@@ -25,6 +25,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.airbnb.lottie.compose.*
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -278,13 +280,14 @@ fun TechnologiesSection() {
             "DataStore Preferences"
         )
         
-        FlowRow(
+        // Using a scrollable row instead of FlowRow for now
+        LazyRow(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+            contentPadding = PaddingValues(horizontal = 0.dp)
         ) {
-            technologies.forEach { tech ->
-                TechnologyChip(text = tech)
+            items(technologies.size) { index ->
+                TechnologyChip(text = technologies[index])
             }
         }
     }
