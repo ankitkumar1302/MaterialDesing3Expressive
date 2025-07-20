@@ -2,6 +2,8 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    id("kotlin-kapt")
+    id("dagger.hilt.android.plugin")
 }
 
 android {
@@ -62,6 +64,29 @@ dependencies {
 
     implementation("androidx.compose.material:material-icons-extended:1.7.8")
 
-
-
+    // Navigation Compose
+    implementation("androidx.navigation:navigation-compose:2.8.5")
+    
+    // Hilt for Dependency Injection
+    implementation("com.google.dagger:hilt-android:2.51.1")
+    kapt("com.google.dagger:hilt-compiler:2.51.1")
+    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
+    
+    // ViewModel
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.7")
+    
+    // Coroutines
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.0")
+    
+    // DataStore Preferences
+    implementation("androidx.datastore:datastore-preferences:1.1.1")
+    
+    // Coil for image loading
+    implementation("io.coil-kt.coil3:coil-compose:3.0.4")
+    
+    // Accompanist for additional UI components
+    implementation("com.google.accompanist:accompanist-systemuicontroller:0.36.0")
+    
+    // Lottie for animations
+    implementation("com.airbnb.android:lottie-compose:6.6.2")
 }
