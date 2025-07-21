@@ -11,6 +11,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Animation
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FormatColorFill
 import androidx.compose.material.icons.filled.Menu
@@ -20,6 +21,7 @@ import androidx.compose.material.icons.filled.Tune
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -32,6 +34,8 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.materialdesing3expressive.ui.components.AnimatedFilterChipGroup
 import com.example.materialdesing3expressive.ui.components.ButtonGroupShowcase
 import com.example.materialdesing3expressive.ui.components.ColorAdjustableCard
@@ -45,14 +49,24 @@ import com.example.materialdesing3expressive.ui.components.MyVerticalFloatingToo
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ComponentsShowcaseScreen() {
+fun ComponentsShowcaseScreen(
+    navController: NavController = rememberNavController()
+) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
 
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             TopAppBar(
-                title = { Text("Material 3 Expressive Components") },
+                title = { Text("Material 3 Components") },
+                navigationIcon = {
+                    IconButton(onClick = { navController.navigateUp() }) {
+                        Icon(
+                            imageVector = Icons.Default.ArrowBack,
+                            contentDescription = "Navigate back"
+                        )
+                    }
+                },
                 scrollBehavior = scrollBehavior
             )
         }
