@@ -1,7 +1,7 @@
 package com.example.materialdesing3expressive.ui.components
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -16,7 +16,7 @@ import androidx.navigation.NavController
 fun UnifiedTopAppBar(
     title: String,
     navController: NavController? = null,
-    navigationIcon: ImageVector? = Icons.Default.ArrowBack,
+    navigationIcon: ImageVector? = Icons.AutoMirrored.Filled.ArrowBack,
     onNavigationClick: (() -> Unit)? = { navController?.navigateUp() },
     actions: @Composable () -> Unit = {},
     scrollBehavior: TopAppBarScrollBehavior? = null,
@@ -43,7 +43,7 @@ fun UnifiedTopAppBar(
                 }
             },
             actions = { actions() },
-            colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+            colors = TopAppBarDefaults.topAppBarColors(
                 containerColor = MaterialTheme.colorScheme.surface,
                 scrolledContainerColor = MaterialTheme.colorScheme.surface
             ),
