@@ -47,14 +47,12 @@ fun HomeScreen(navController: NavController) {
             kotlinx.coroutines.delay(60000) // Check every minute
         }
     }
-    
-    val greeting by remember(currentHour.value) {
-        derivedStateOf {
-            when (currentHour.value) {
-                in 0..11 -> "Good Morning"
-                in 12..16 -> "Good Afternoon"
-                else -> "Good Evening"
-            }
+
+    val greeting = remember(currentHour.value) {
+        when (currentHour.value) {
+            in 0..11 -> "Good Morning"
+            in 12..16 -> "Good Afternoon"
+            else -> "Good Evening"
         }
     }
 

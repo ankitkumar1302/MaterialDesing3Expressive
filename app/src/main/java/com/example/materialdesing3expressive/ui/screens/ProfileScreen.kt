@@ -1,5 +1,6 @@
 package com.example.materialdesing3expressive.ui.screens
 
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -94,7 +95,7 @@ fun ProfileScreen(navController: NavController) {
         }
         
         // Custom Top App Bar with scroll-based color
-        SmallTopAppBar(
+        TopAppBar(
             title = { 
                 Text(
                     "Profile",
@@ -119,9 +120,8 @@ fun ProfileScreen(navController: NavController) {
                     )
                 }
             },
-            colors = TopAppBarDefaults.smallTopAppBarColors(
-                containerColor = topBarColor,
-                scrolledContainerColor = topBarColor
+            colors = TopAppBarDefaults.topAppBarColors(
+                containerColor = topBarColor
             ),
             modifier = Modifier.fillMaxWidth()
         )
