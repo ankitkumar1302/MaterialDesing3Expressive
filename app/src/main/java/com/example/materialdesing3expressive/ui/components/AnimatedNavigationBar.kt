@@ -31,6 +31,8 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.materialdesing3expressive.navigation.Screen
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 data class NavigationItem(
     val route: String,
@@ -74,25 +76,23 @@ fun AnimatedNavigationBar(
         )
     )
     
-    Surface(
+    // Simple Material3 Navigation Bar
+    NavigationBar(
         modifier = modifier,
-        color = MaterialTheme.colorScheme.surface,
-        tonalElevation = 3.dp
+        containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp),
+        tonalElevation = 0.dp
     ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(80.dp) // Set fixed height for consistency
-                .padding(horizontal = 8.dp), // Remove vertical padding
-            horizontalArrangement = Arrangement.SpaceEvenly,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            items.forEach { item ->
-                AnimatedNavigationBarItem(
-                    item = item,
-                    isSelected = currentRoute == item.route,
-                    onClick = {
-                        if (currentRoute != item.route) {
+        items.forEach { item ->
+            val selected = currentRoute == item.route
+            val coroutineScope = rememberCoroutineScope()
+            
+            NavigationBarItem(
+                selected = selected,
+                onClick = {
+                    if (currentRoute != item.route) {
+                        // Use coroutine for navigation with small delay for animation
+                        coroutineScope.launch {
+                            delay(100) // Small delay for visual feedback
                             navController.navigate(item.route) {
                                 popUpTo(Screen.Home.route) {
                                     saveState = true
@@ -102,94 +102,68 @@ fun AnimatedNavigationBar(
                             }
                         }
                     }
+                },
+                icon = {
+                    SimpleAnimatedIcon(
+                        selected = selected,
+                        selectedIcon = item.selectedIcon,
+                        unselectedIcon = item.unselectedIcon,
+                        contentDescription = item.label
+                    )
+                },
+                label = {
+                    Text(
+                        text = item.label,
+                        style = MaterialTheme.typography.labelMedium
+                    )
+                },
+                colors = NavigationBarItemDefaults.colors(
+                    selectedIconColor = MaterialTheme.colorScheme.onSecondaryContainer,
+                    selectedTextColor = MaterialTheme.colorScheme.onSurface,
+                    indicatorColor = MaterialTheme.colorScheme.secondaryContainer,
+                    unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                    unselectedTextColor = MaterialTheme.colorScheme.onSurfaceVariant
                 )
-            }
+            )
         }
     }
 }
 
 @Composable
-fun AnimatedNavigationBarItem(
-    item: NavigationItem,
-    isSelected: Boolean,
-    onClick: () -> Unit
+fun SimpleAnimatedIcon(
+    selected: Boolean,
+    selectedIcon: ImageVector,
+    unselectedIcon: ImageVector,
+    contentDescription: String
 ) {
-    val haptic = LocalHapticFeedback.current
-    val interactionSource = remember { MutableInteractionSource() }
+    val coroutineScope = rememberCoroutineScope()
+    var animationScale by remember { mutableFloatStateOf(1f) }
     
-    val animatedScale by animateFloatAsState(
-        targetValue = if (isSelected) 1.15f else 1f,
-        animationSpec = spring(
-            dampingRatio = Spring.DampingRatioMediumBouncy,
-            stiffness = Spring.StiffnessLow
-        )
-    )
-    
-    val animatedColor by animateColorAsState(
-        targetValue = if (isSelected) 
-            MaterialTheme.colorScheme.primary 
-        else 
-            MaterialTheme.colorScheme.onSurfaceVariant,
-        animationSpec = tween(300)
-    )
-    
-    Box(
-        modifier = Modifier
-            .clip(RoundedCornerShape(16.dp))
-            .clickable(
-                interactionSource = interactionSource,
-                indication = null
-            ) {
-                haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-                onClick()
-            }
-            .padding(horizontal = 12.dp, vertical = 4.dp), // Reduced padding
-        contentAlignment = Alignment.Center
-    ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        ) {
-            Box(
-                modifier = Modifier
-                    .size(if (isSelected) 48.dp else 40.dp) // Reduced icon container size
-                    .scale(animatedScale),
-                contentAlignment = Alignment.Center
-            ) {
-                if (isSelected) {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .clip(CircleShape)
-                            .background(
-                                MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.3f)
-                            )
-                    )
-                }
-                
-                Icon(
-                    imageVector = if (isSelected) item.selectedIcon else item.unselectedIcon,
-                    contentDescription = item.label,
-                    tint = animatedColor,
-                    modifier = Modifier.size(24.dp)
-                )
-            }
-            
-            AnimatedVisibility(
-                visible = isSelected,
-                enter = fadeIn() + expandVertically(),
-                exit = fadeOut() + shrinkVertically()
-            ) {
-                Text(
-                    text = item.label,
-                    style = MaterialTheme.typography.labelSmall,
-                    fontWeight = FontWeight.SemiBold,
-                    color = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.padding(top = 4.dp)
-                )
+    // Animate scale when selection changes
+    LaunchedEffect(selected) {
+        if (selected) {
+            coroutineScope.launch {
+                animationScale = 1.2f
+                delay(150)
+                animationScale = 1f
             }
         }
     }
+    
+    val scale by animateFloatAsState(
+        targetValue = animationScale,
+        animationSpec = spring(
+            dampingRatio = Spring.DampingRatioMediumBouncy,
+            stiffness = Spring.StiffnessMedium
+        ),
+        label = "iconScale"
+    )
+    
+    Icon(
+        imageVector = if (selected) selectedIcon else unselectedIcon,
+        contentDescription = contentDescription,
+        modifier = Modifier.scale(scale)
+    )
 }
 
 @Composable

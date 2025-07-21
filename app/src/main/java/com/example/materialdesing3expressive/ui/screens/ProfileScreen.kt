@@ -18,6 +18,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
@@ -25,6 +26,9 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil3.compose.AsyncImage
 import com.example.materialdesing3expressive.ui.components.UnifiedTopAppBar
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.CoroutineScope
 
 data class StatItem(
     val label: String,
@@ -37,29 +41,47 @@ data class StatItem(
 @Composable
 fun ProfileScreen(navController: NavController) {
     val scrollState = rememberScrollState()
+    val coroutineScope = rememberCoroutineScope()
     
-    Scaffold(
-        topBar = {
-            UnifiedTopAppBar(
-                title = "Profile",
-                navController = navController,
-                isMainScreen = true,
-                actions = {
-                    IconButton(onClick = { /* Edit profile */ }) {
-                        Icon(Icons.Default.Edit, contentDescription = "Edit Profile")
-                    }
-                }
-            )
+    // Calculate scroll progress for color transition
+    val scrollProgress = remember {
+        derivedStateOf {
+            val scrollValue = scrollState.value.toFloat()
+            val maxScroll = 200f // Transition completes after 200px scroll
+            (scrollValue / maxScroll).coerceIn(0f, 1f)
         }
-    ) { paddingValues ->
+    }
+    
+    // Animate top bar color based on scroll
+    val topBarColor by animateColorAsState(
+        targetValue = if (scrollProgress.value > 0.5f) 
+            MaterialTheme.colorScheme.surface 
+        else 
+            MaterialTheme.colorScheme.primary.copy(alpha = 0.1f),
+        animationSpec = tween(300),
+        label = "topBarColor"
+    )
+    
+    val contentColor by animateColorAsState(
+        targetValue = if (scrollProgress.value > 0.5f) 
+            MaterialTheme.colorScheme.onSurface 
+        else 
+            MaterialTheme.colorScheme.primary,
+        animationSpec = tween(300),
+        label = "contentColor"
+    )
+    
+    Box(modifier = Modifier.fillMaxSize()) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues)
                 .verticalScroll(scrollState)
         ) {
+            // Add top padding for transparent app bar
+            Spacer(modifier = Modifier.height(64.dp))
+            
             // Profile Header
-            ProfileHeader()
+            ProfileHeader(coroutineScope)
             
             // Stats Section
             StatsSection()
@@ -70,11 +92,44 @@ fun ProfileScreen(navController: NavController) {
             // Settings Options
             ProfileOptions(navController)
         }
+        
+        // Custom Top App Bar with scroll-based color
+        SmallTopAppBar(
+            title = { 
+                Text(
+                    "Profile",
+                    color = contentColor
+                )
+            },
+            navigationIcon = {
+                IconButton(onClick = { navController.navigateUp() }) {
+                    Icon(
+                        Icons.Default.ArrowBack, 
+                        contentDescription = "Back",
+                        tint = contentColor
+                    )
+                }
+            },
+            actions = {
+                IconButton(onClick = { /* Edit profile */ }) {
+                    Icon(
+                        Icons.Default.Edit, 
+                        contentDescription = "Edit Profile",
+                        tint = contentColor
+                    )
+                }
+            },
+            colors = TopAppBarDefaults.smallTopAppBarColors(
+                containerColor = topBarColor,
+                scrolledContainerColor = topBarColor
+            ),
+            modifier = Modifier.fillMaxWidth()
+        )
     }
 }
 
 @Composable
-fun ProfileHeader() {
+fun ProfileHeader(coroutineScope: CoroutineScope) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -104,18 +159,24 @@ fun ProfileHeader() {
         ) {
             Spacer(modifier = Modifier.height(60.dp))
             
-            // Profile Picture with Animation
-            var imageScale by remember { mutableStateOf(0.8f) }
+            // Profile Picture with Animation using Coroutines
+            var imageScale by remember { mutableFloatStateOf(0.8f) }
             val scale by animateFloatAsState(
                 targetValue = imageScale,
                 animationSpec = spring(
                     dampingRatio = Spring.DampingRatioMediumBouncy,
                     stiffness = Spring.StiffnessLow
-                )
+                ),
+                label = "profileImageScale"
             )
             
             LaunchedEffect(Unit) {
-                imageScale = 1f
+                coroutineScope.launch {
+                    delay(300) // Initial delay
+                    imageScale = 1.1f
+                    delay(200)
+                    imageScale = 1f
+                }
             }
             
             Surface(
@@ -189,6 +250,7 @@ fun ProfileHeader() {
 
 @Composable
 fun StatsSection() {
+    val coroutineScope = rememberCoroutineScope()
     val stats = listOf(
         StatItem("Projects", "12", Icons.Default.Folder, 0.8f),
         StatItem("Components", "48", Icons.Default.Dashboard, 0.6f),
@@ -207,7 +269,7 @@ fun StatsSection() {
         
         Spacer(modifier = Modifier.height(16.dp))
         
-        stats.chunked(2).forEach { rowStats ->
+        stats.chunked(2).forEachIndexed { index, rowStats ->
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(12.dp)
@@ -215,7 +277,9 @@ fun StatsSection() {
                 rowStats.forEach { stat ->
                     StatCard(
                         stat = stat,
-                        modifier = Modifier.weight(1f)
+                        modifier = Modifier.weight(1f),
+                        animationDelay = index * 150L,
+                        coroutineScope = coroutineScope
                     )
                 }
             }
@@ -227,10 +291,51 @@ fun StatsSection() {
 @Composable
 fun StatCard(
     stat: StatItem,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    animationDelay: Long = 0L,
+    coroutineScope: CoroutineScope
 ) {
+    var isVisible by remember { mutableStateOf(false) }
+    var animatedProgress by remember { mutableFloatStateOf(0f) }
+    
+    // Animate card appearance and progress
+    LaunchedEffect(Unit) {
+        coroutineScope.launch {
+            delay(animationDelay)
+            isVisible = true
+            
+            // Animate progress bar after card appears
+            delay(300)
+            launch {
+                var progress = 0f
+                while (progress < stat.progress) {
+                    progress += 0.02f
+                    animatedProgress = progress.coerceAtMost(stat.progress)
+                    delay(10)
+                }
+            }
+        }
+    }
+    
+    val scale by animateFloatAsState(
+        targetValue = if (isVisible) 1f else 0.8f,
+        animationSpec = spring(
+            dampingRatio = Spring.DampingRatioMediumBouncy,
+            stiffness = Spring.StiffnessLow
+        ),
+        label = "cardScale"
+    )
+    
+    val alpha by animateFloatAsState(
+        targetValue = if (isVisible) 1f else 0f,
+        animationSpec = tween(600),
+        label = "cardAlpha"
+    )
+    
     Card(
-        modifier = modifier,
+        modifier = modifier
+            .scale(scale)
+            .graphicsLayer { this.alpha = alpha },
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surfaceVariant
@@ -270,7 +375,7 @@ fun StatCard(
             if (stat.progress > 0f) {
                 Spacer(modifier = Modifier.height(8.dp))
                 LinearProgressIndicator(
-                    progress = { stat.progress },
+                    progress = { animatedProgress },
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(4.dp)
