@@ -17,6 +17,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.compose.ui.platform.LocalContext
+import com.example.materialdesing3expressive.ui.components.UnifiedTopAppBar
 
 data class SettingItem(
     val title: String,
@@ -40,16 +41,10 @@ fun SettingsScreen(navController: NavController) {
     
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = { Text("Settings") },
-                navigationIcon = {
-                    IconButton(onClick = { navController.navigateUp() }) {
-                        Icon(
-                            imageVector = Icons.Default.ArrowBack,
-                            contentDescription = "Navigate back"
-                        )
-                    }
-                }
+            UnifiedTopAppBar(
+                title = "Settings",
+                navController = navController,
+                isMainScreen = true
             )
         }
     ) { paddingValues ->

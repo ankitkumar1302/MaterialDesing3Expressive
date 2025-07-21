@@ -46,6 +46,7 @@ import com.example.materialdesing3expressive.ui.components.InteractiveCardConten
 import com.example.materialdesing3expressive.ui.components.MyCustomLoadingIndicator
 import com.example.materialdesing3expressive.ui.components.MyHorizontalFloatingToolbar
 import com.example.materialdesing3expressive.ui.components.MyVerticalFloatingToolbar
+import com.example.materialdesing3expressive.ui.components.UnifiedTopAppBar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -57,17 +58,11 @@ fun ComponentsShowcaseScreen(
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
-            TopAppBar(
-                title = { Text("Material 3 Components") },
-                navigationIcon = {
-                    IconButton(onClick = { navController.navigateUp() }) {
-                        Icon(
-                            imageVector = Icons.Default.ArrowBack,
-                            contentDescription = "Navigate back"
-                        )
-                    }
-                },
-                scrollBehavior = scrollBehavior
+            UnifiedTopAppBar(
+                title = "Material 3 Components",
+                navController = navController,
+                scrollBehavior = scrollBehavior,
+                isMainScreen = false
             )
         }
     ) { paddingValues ->

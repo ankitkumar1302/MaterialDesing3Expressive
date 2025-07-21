@@ -24,6 +24,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil3.compose.AsyncImage
+import com.example.materialdesing3expressive.ui.components.UnifiedTopAppBar
 
 data class StatItem(
     val label: String,
@@ -39,22 +40,13 @@ fun ProfileScreen(navController: NavController) {
     
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = { Text("Profile") },
-                navigationIcon = {
-                    IconButton(onClick = { navController.navigateUp() }) {
-                        Icon(
-                            imageVector = Icons.Default.ArrowBack,
-                            contentDescription = "Navigate back"
-                        )
-                    }
-                },
+            UnifiedTopAppBar(
+                title = "Profile",
+                navController = navController,
+                isMainScreen = true,
                 actions = {
-                    IconButton(onClick = { }) {
-                        Icon(
-                            imageVector = Icons.Default.Edit,
-                            contentDescription = "Edit profile"
-                        )
+                    IconButton(onClick = { /* Edit profile */ }) {
+                        Icon(Icons.Default.Edit, contentDescription = "Edit Profile")
                     }
                 }
             )
