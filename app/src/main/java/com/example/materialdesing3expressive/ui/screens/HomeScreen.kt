@@ -24,8 +24,9 @@ import androidx.navigation.NavController
 import com.example.materialdesing3expressive.navigation.Screen
 import com.example.materialdesing3expressive.ui.components.UnifiedTopAppBar
 import java.time.LocalTime
+import kotlinx.coroutines.delay
 
-data class NavigationItem(
+data class HomeNavigationItem(
     val title: String,
     val subtitle: String,
     val icon: ImageVector,
@@ -37,16 +38,28 @@ data class NavigationItem(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(navController: NavController) {
-    val greeting = remember {
-        when (LocalTime.now().hour) {
-            in 0..11 -> "Good Morning"
-            in 12..16 -> "Good Afternoon"
-            else -> "Good Evening"
+    // Use derivedStateOf to recalculate greeting when recomposition occurs
+    val currentHour = remember { mutableStateOf(LocalTime.now().hour) }
+    LaunchedEffect(Unit) {
+        // Update the hour periodically
+        while (true) {
+            currentHour.value = LocalTime.now().hour
+            kotlinx.coroutines.delay(60000) // Check every minute
+        }
+    }
+    
+    val greeting by remember(currentHour.value) {
+        derivedStateOf {
+            when (currentHour.value) {
+                in 0..11 -> "Good Morning"
+                in 12..16 -> "Good Afternoon"
+                else -> "Good Evening"
+            }
         }
     }
 
     val navigationItems = listOf(
-        NavigationItem(
+        HomeNavigationItem(
             title = "Components Gallery",
             subtitle = "Explore Material 3 components",
             icon = Icons.Default.ViewModule,
@@ -54,7 +67,7 @@ fun HomeScreen(navController: NavController) {
             primaryColor = MaterialTheme.colorScheme.primary,
             secondaryColor = MaterialTheme.colorScheme.primaryContainer
         ),
-        NavigationItem(
+        HomeNavigationItem(
             title = "Profile",
             subtitle = "Manage your account",
             icon = Icons.Default.Person,
@@ -62,7 +75,7 @@ fun HomeScreen(navController: NavController) {
             primaryColor = MaterialTheme.colorScheme.secondary,
             secondaryColor = MaterialTheme.colorScheme.secondaryContainer
         ),
-        NavigationItem(
+        HomeNavigationItem(
             title = "Settings",
             subtitle = "Customize your experience",
             icon = Icons.Default.Settings,
@@ -70,7 +83,7 @@ fun HomeScreen(navController: NavController) {
             primaryColor = MaterialTheme.colorScheme.tertiary,
             secondaryColor = MaterialTheme.colorScheme.tertiaryContainer
         ),
-        NavigationItem(
+        HomeNavigationItem(
             title = "About",
             subtitle = "Learn more about this app",
             icon = Icons.Default.Info,
@@ -257,7 +270,7 @@ fun QuickStatCard(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NavigationCard(
-    item: NavigationItem,
+    item: HomeNavigationItem,
     onClick: () -> Unit
 ) {
     Card(

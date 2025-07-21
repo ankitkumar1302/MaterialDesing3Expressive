@@ -10,7 +10,9 @@ import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
@@ -57,9 +59,16 @@ fun MaterialDesing3ExpressiveTheme(
     val view = LocalView.current
     if (!view.isInEditMode) {
         SideEffect {
-            val window = (view.context as Activity).window
-            window.statusBarColor = colorScheme.primary.toArgb()
-            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = !darkTheme
+            // Safely cast context to Activity
+            val activity = view.context as? Activity
+            activity?.window?.let { window ->
+                // Use background color instead of primary for better contrast
+                window.statusBarColor = colorScheme.background.toArgb()
+                
+                // Determine light/dark status bar icons based on the actual background color
+                val isLightBackground = colorScheme.background.luminance() > 0.5f
+                WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = isLightBackground
+            }
         }
     }
 
