@@ -18,11 +18,14 @@ import androidx.compose.material3.Slider
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.Button
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -31,6 +34,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import kotlin.math.roundToInt
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @Composable
 fun ExpressiveProgressIndicators(
@@ -38,11 +43,35 @@ fun ExpressiveProgressIndicators(
 ) {
     var progress by remember { mutableFloatStateOf(0.65f) }
     var showIndeterminate by remember { mutableStateOf(false) }
+    var autoProgress by remember { mutableStateOf(false) }
+    val coroutineScope = rememberCoroutineScope()
+    
     val animatedProgress by animateFloatAsState(
         targetValue = progress,
         animationSpec = tween(durationMillis = 1000),
         label = "progress"
     )
+    
+    // Auto progress with coroutines
+    LaunchedEffect(autoProgress) {
+        if (autoProgress && !showIndeterminate) {
+            while (autoProgress) {
+                coroutineScope.launch {
+                    var currentProgress = 0f
+                    while (currentProgress <= 1f && autoProgress) {
+                        progress = currentProgress
+                        delay(50)
+                        currentProgress += 0.01f
+                    }
+                    if (autoProgress) {
+                        delay(500)
+                        progress = 0f
+                    }
+                }
+                delay(2000)
+            }
+        }
+    }
 
     Column(modifier = modifier.padding(16.dp)) {
         Text(
@@ -128,22 +157,44 @@ fun ExpressiveProgressIndicators(
                 )
                 Switch(
                     checked = showIndeterminate,
-                    onCheckedChange = { showIndeterminate = it }
+                    onCheckedChange = { 
+                        showIndeterminate = it
+                        if (it) autoProgress = false
+                    }
                 )
             }
             
             if (!showIndeterminate) {
-                Text(
-                    text = "Progress",
-                    style = MaterialTheme.typography.bodyLarge,
-                    modifier = Modifier.padding(top = 16.dp, bottom = 8.dp)
-                )
-                Slider(
-                    value = progress,
-                    onValueChange = { progress = it },
-                    valueRange = 0f..1f,
-                    modifier = Modifier.fillMaxWidth()
-                )
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 16.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = "Auto Progress",
+                        style = MaterialTheme.typography.bodyLarge
+                    )
+                    Switch(
+                        checked = autoProgress,
+                        onCheckedChange = { autoProgress = it }
+                    )
+                }
+                
+                if (!autoProgress) {
+                    Text(
+                        text = "Progress",
+                        style = MaterialTheme.typography.bodyLarge,
+                        modifier = Modifier.padding(top = 16.dp, bottom = 8.dp)
+                    )
+                    Slider(
+                        value = progress,
+                        onValueChange = { progress = it },
+                        valueRange = 0f..1f,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
             }
         }
     }
