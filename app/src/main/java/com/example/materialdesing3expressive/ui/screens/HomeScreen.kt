@@ -22,6 +22,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.materialdesing3expressive.navigation.Screen
+import com.example.materialdesing3expressive.ui.components.UnifiedTopAppBar
 import java.time.LocalTime
 
 data class NavigationItem(
@@ -81,16 +82,10 @@ fun HomeScreen(navController: NavController) {
 
     Scaffold(
         topBar = {
-            CenterAlignedTopAppBar(
-                title = { 
-                    Text(
-                        "Material Design 3",
-                        style = MaterialTheme.typography.headlineSmall
-                    )
-                },
-                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.surface
-                )
+            UnifiedTopAppBar(
+                title = "Material Design 3",
+                navController = navController,
+                isMainScreen = true
             )
         }
     ) { paddingValues ->

@@ -1,5 +1,7 @@
 package com.example.materialdesing3expressive.navigation
 
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -44,7 +46,8 @@ fun AppNavigation(
             if (showBottomBar) {
                 AnimatedNavigationBar(navController = navController)
             }
-        }
+        },
+        contentWindowInsets = WindowInsets(0, 0, 0, 0) // Handle insets manually
     ) { paddingValues ->
         NavHost(
             navController = navController,

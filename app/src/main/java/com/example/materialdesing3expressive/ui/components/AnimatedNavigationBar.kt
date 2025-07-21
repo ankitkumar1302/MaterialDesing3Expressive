@@ -82,7 +82,8 @@ fun AnimatedNavigationBar(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 8.dp, vertical = 4.dp),
+                .height(80.dp) // Set fixed height for consistency
+                .padding(horizontal = 8.dp), // Remove vertical padding
             horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -142,7 +143,7 @@ fun AnimatedNavigationBarItem(
                 haptic.performHapticFeedback(HapticFeedbackType.LongPress)
                 onClick()
             }
-            .padding(horizontal = 16.dp, vertical = 8.dp),
+            .padding(horizontal = 12.dp, vertical = 4.dp), // Reduced padding
         contentAlignment = Alignment.Center
     ) {
         Column(
@@ -151,7 +152,7 @@ fun AnimatedNavigationBarItem(
         ) {
             Box(
                 modifier = Modifier
-                    .size(if (isSelected) 56.dp else 48.dp)
+                    .size(if (isSelected) 48.dp else 40.dp) // Reduced icon container size
                     .scale(animatedScale),
                 contentAlignment = Alignment.Center
             ) {
